@@ -29,9 +29,10 @@
 <body>
   <canvas id="canvas" width="400" height="400"></canvas>
   <div class="controls">
-    <button>Animate</button>
-    <button>Reset</button>
+    <button onclick="startAnimation()">Animate</button>
+    <button onclick="reset()">Reset</button>
   </div>
+
   <script>
     const canvas = document.getElementById('canvas');
     const ctx = canvas.getContext('2d');
@@ -74,9 +75,24 @@
       ctx.fillText('THINK', canvas.width/2, canvas.height - 50);
     }
 
-     // Initial draw
-     drawScene();
+    function startAnimation() {
+      cancelAnimationFrame(animationId);
+      function loop() {
+        rotation += 0.02;
+        drawScene();
+        animationId = requestAnimationFrame(loop);
+      }
+      loop();
+    }
+
+    function reset() {
+      cancelAnimationFrame(animationId);
+      rotation = 0;
+      drawScene();
+    }
+
+    // Initial draw
+    drawScene();
   </script>
 </body>
 </html>
-
